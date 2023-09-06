@@ -14,4 +14,4 @@ export class CreateFlujoProcesoDto {
     @IsMongoId({ message: 'El campo "opciones_id" debe ser una id de mongo válida' })
     opciones_id: string;
 
-}
+};
