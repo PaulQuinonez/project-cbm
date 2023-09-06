@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from './schema/user.schema';
+import { Model } from 'mongoose';
+import {hash} from 'bcrypt'
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>
+  ){}
+
+  async create(createUserDto: CreateUserDto) {
+
+    const {password} = createUserDto;
+    const plainToHash = await hash(password, 10);
+    createUserDto = {...createUserDto, password: plainToHash}
+    const userCreated = await this.userModel.create(createUserDto)
+    return userCreated;
+
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    const userFindAll = await this.userModel.find({})
+    return userFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    const userFindId = await this.userModel.findById(id)
+    return userFindId;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const {password} = updateUserDto;
+    const plainToHash = await hash(password, 10);
+    updateUserDto = {...updateUserDto, password:plainToHash};
+    const actualizarUser = await this.userModel.findByIdAndUpdate(id, updateUserDto)
+    return actualizarUser;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    const userRemove = await this.userModel.findByIdAndDelete(id)
+    return userRemove;
   }
 }

@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
-//TODO El SCHEMA de los COCINEROS (Collection)
 export type UserDocument = User & Document;
 
 @Schema()
@@ -20,6 +19,9 @@ export class User {
 
     @Prop()
     roleId: string
+
+    // @Prop({ type: mongoose.Schema.Types.ObjectId, ref:  'Roles'})
+    // roleId: Roles
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

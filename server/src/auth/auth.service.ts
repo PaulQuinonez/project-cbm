@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { HttpException, Injectable } from '@nestjs/common';
+import { LoginAuthDto } from './dto/login-auth.dto';
+import { RegisterAuthDto } from './dto/register-auth.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from 'src/user/schema/user.schema';
+import { Model } from 'mongoose';
+import { JwtService } from '@nestjs/jwt';
+import { hash, compare } from "bcrypt";
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private jwtService: JwtService,
+  ){}
+
+  async register(userObject: RegisterAuthDto){
+
+    const { password } = userObject; //TODO la contraseña es texto plano, debemos aplicar un hash
+    const plainToHash = await hash(password, 10) //TODO nos encripta la contraseña
+    userObject = {...userObject, password:plainToHash};
+    return this.userModel.create(userObject)
+
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async login(userObject: LoginAuthDto){
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    const { email, password } = userObject;
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+    const findUser = await this.userModel
+      .findOne({ email })
+      .populate('roleId'); // Agregar populate para obtener los datos de roleId
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    if (!findUser) {
+      throw new HttpException('El usuario no existe', 404);
+    }
+
+    const checkPass = await compare(password, findUser.password);
+
+    if (!checkPass) {
+      throw new HttpException('Contraseña incorrecta', 403);
+    }
+
+    const payload = { id: findUser._id, name: findUser.name };
+    const token = this.jwtService.sign(payload);
+
+    const data = {
+      user: findUser,
+      token,
+    };
+
+    return data;
+
   }
 }

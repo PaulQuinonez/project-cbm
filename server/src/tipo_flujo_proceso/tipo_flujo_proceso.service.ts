@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTipoFlujoProcesoDto } from './dto/create-tipo_flujo_proceso.dto';
 import { UpdateTipoFlujoProcesoDto } from './dto/update-tipo_flujo_proceso.dto';
+import { TipoFlujoProceso, TipoFlujoProcesoDocument } from './schema/tipo_flujo_proceso.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class TipoFlujoProcesoService {
-  create(createTipoFlujoProcesoDto: CreateTipoFlujoProcesoDto) {
-    return 'This action adds a new tipoFlujoProceso';
+  constructor(
+    @InjectModel(TipoFlujoProceso.name) private tipoFlujoProcesoModel: Model<TipoFlujoProcesoDocument>
+  ){}
+  async create(createTipoFlujoProcesoDto: CreateTipoFlujoProcesoDto) {
+    const { name } = createTipoFlujoProcesoDto;
+    const existingtipoFlujoProceso = await this.tipoFlujoProcesoModel.findOne({ name });
+    if (existingtipoFlujoProceso) {
+      throw new ConflictException('El tipo de flujo de proceso ya existe.');
+    }
+    const tipoFlujoProcesoCreated = await this.tipoFlujoProcesoModel.create(createTipoFlujoProcesoDto)
+    return tipoFlujoProcesoCreated;
   }
 
-  findAll() {
-    return `This action returns all tipoFlujoProceso`;
+  async findAll() {
+    const tipoFlujoProcesoFindAll = await this.tipoFlujoProcesoModel.find({})
+    return tipoFlujoProcesoFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tipoFlujoProceso`;
+  async findOne(id: string) {
+    const tipoFlujoProcesoFindID = await this.tipoFlujoProcesoModel.findById(id)
+    return tipoFlujoProcesoFindID;
   }
 
-  update(id: number, updateTipoFlujoProcesoDto: UpdateTipoFlujoProcesoDto) {
-    return `This action updates a #${id} tipoFlujoProceso`;
+  async update(id: string, updateTipoFlujoProcesoDto: UpdateTipoFlujoProcesoDto) {
+    const actualizartipoFlujoProceso = await this.tipoFlujoProcesoModel.findByIdAndUpdate(id, updateTipoFlujoProcesoDto)
+    return actualizartipoFlujoProceso;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tipoFlujoProceso`;
+  async remove(id: string) {
+    const tipoFlujoProcesoRemove = await this.tipoFlujoProcesoModel.findByIdAndDelete(id)
+    return tipoFlujoProcesoRemove;
   }
 }
