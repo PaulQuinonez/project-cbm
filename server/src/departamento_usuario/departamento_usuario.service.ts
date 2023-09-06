@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDepartamentoUsuarioDto } from './dto/create-departamento_usuario.dto';
 import { UpdateDepartamentoUsuarioDto } from './dto/update-departamento_usuario.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { DepartamentoUsuario, DepartamentoUsuarioDocument } from './schema/departamento_usuario.schema';
 
 @Injectable()
 export class DepartamentoUsuarioService {
-  create(createDepartamentoUsuarioDto: CreateDepartamentoUsuarioDto) {
-    return 'This action adds a new departamentoUsuario';
+  constructor(
+    @InjectModel(DepartamentoUsuario.name) private DepartamentoUsuarioModel: Model<DepartamentoUsuarioDocument>
+  ){}
+  async create(createDepartamentoUsuarioDto: CreateDepartamentoUsuarioDto) {
+    const departamentoUsuarioCreated = await this.DepartamentoUsuarioModel.create(createDepartamentoUsuarioDto)
+    return departamentoUsuarioCreated;
   }
 
-  findAll() {
-    return `This action returns all departamentoUsuario`;
+  async findAll() {
+    const departamentoUsuarioFindAll = await this.DepartamentoUsuarioModel.find({})
+    return departamentoUsuarioFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} departamentoUsuario`;
+  async findOne(id: string) {
+    const departamentoUsuarioFindID = await this.DepartamentoUsuarioModel.findById(id)
+    return departamentoUsuarioFindID;
   }
 
-  update(id: number, updateDepartamentoUsuarioDto: UpdateDepartamentoUsuarioDto) {
-    return `This action updates a #${id} departamentoUsuario`;
+  async update(id: string, updateDepartamentoUsuarioDto: UpdateDepartamentoUsuarioDto) {
+    const actualizardepartamentoUsuario = await this.DepartamentoUsuarioModel.findByIdAndUpdate(id, updateDepartamentoUsuarioDto)
+    return actualizardepartamentoUsuario;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} departamentoUsuario`;
+  async remove(id: string) {
+    const departamentoUsuarioRemove = await this.DepartamentoUsuarioModel.findByIdAndDelete(id)
+    return departamentoUsuarioRemove;
   }
 }

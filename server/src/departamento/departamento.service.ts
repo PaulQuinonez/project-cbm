@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateDepartamentoDto } from './dto/create-departamento.dto';
 import { UpdateDepartamentoDto } from './dto/update-departamento.dto';
+import { Departamento, DepartamentoDocument } from './schema/departamento.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class DepartamentoService {
-  create(createDepartamentoDto: CreateDepartamentoDto) {
-    return 'This action adds a new departamento';
+  constructor(
+    @InjectModel(Departamento.name) private DepartamentoModel: Model<DepartamentoDocument>
+  ){}
+  async create(createDepartamentoDto: CreateDepartamentoDto) {
+    const { name } = createDepartamentoDto;
+    const existingdepartamento = await this.DepartamentoModel.findOne({ name });
+    if (existingdepartamento) {
+      throw new ConflictException('El tipo de flujo de proceso ya existe.');
+    }
+    const departamentoCreated = await this.DepartamentoModel.create(createDepartamentoDto)
+    return departamentoCreated;
   }
 
-  findAll() {
-    return `This action returns all departamento`;
+  async findAll() {
+    const departamentoFindAll = await this.DepartamentoModel.find({})
+    return departamentoFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} departamento`;
+  async findOne(id: number) {
+    const departamentoFindID = await this.DepartamentoModel.findById(id)
+    return departamentoFindID;
   }
 
-  update(id: number, updateDepartamentoDto: UpdateDepartamentoDto) {
-    return `This action updates a #${id} departamento`;
+  async update(id: number, updateDepartamentoDto: UpdateDepartamentoDto) {
+    const actualizardepartamento = await this.DepartamentoModel.findByIdAndUpdate(id, updateDepartamentoDto)
+    return actualizardepartamento;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} departamento`;
+  async remove(id: number) {
+    const departamentoRemove = await this.DepartamentoModel.findByIdAndDelete(id)
+    return departamentoRemove;
   }
 }
