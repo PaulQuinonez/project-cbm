@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { Ciudad } from 'src/ciudad/schema/ciudad.schema';
+import { Roles } from 'src/roles/schema/roles.schema';
 
 export type UserDocument = User & Document;
 
@@ -14,14 +16,11 @@ export class User {
     @Prop()
     password: string;
 
-    @Prop()
-    ciudadId: string
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref:  'Ciudad'})
+    ciudadId: Ciudad
 
-    @Prop()
-    roleId: string
-
-    // @Prop({ type: mongoose.Schema.Types.ObjectId, ref:  'Roles'})
-    // roleId: Roles
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref:  'Roles'})
+    roleId: Roles
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
