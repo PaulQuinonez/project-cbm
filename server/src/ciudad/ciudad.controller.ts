@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger/dist';
-//TODO Aquí va -> import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CiudadService } from './ciudad.service';
 import { CreateCiudadDto } from './dto/create-ciudad.dto';
 import { UpdateCiudadDto } from './dto/update-ciudad.dto';
@@ -10,7 +10,7 @@ import { UpdateCiudadDto } from './dto/update-ciudad.dto';
 @ApiBearerAuth()
 @ApiTags('ciudad')
 @Controller('ciudad')
-//TODO @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class CiudadController {
   constructor(private readonly ciudadService: CiudadService) {}
 

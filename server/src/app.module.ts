@@ -15,6 +15,7 @@ import { ProcesoDeterminadoModule } from './proceso_determinado/proceso_determin
 import { FlujoProcesoModule } from './flujo_proceso/flujo_proceso.module';
 import { ProcesoModule } from './proceso/proceso.module';
 import { TipoFlujoProcesoModule } from './tipo_flujo_proceso/tipo_flujo_proceso.module';
+import { OpcionesModule } from './opciones/opciones.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { TipoFlujoProcesoModule } from './tipo_flujo_proceso/tipo_flujo_proceso.
     ProcesoDeterminadoModule,
     FlujoProcesoModule,
     ProcesoModule,
-    TipoFlujoProcesoModule
+    TipoFlujoProcesoModule,
+    OpcionesModule
   ],
   controllers: [AppController],
   providers: [AppService],

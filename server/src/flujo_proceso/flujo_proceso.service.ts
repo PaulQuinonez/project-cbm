@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateFlujoProcesoDto } from './dto/create-flujo_proceso.dto';
 import { UpdateFlujoProcesoDto } from './dto/update-flujo_proceso.dto';
+import { FlujoProceso, FlujoProcesoDocument } from './schema/flujo_proceso.schema';
 
 @Injectable()
 export class FlujoProcesoService {
-  create(createFlujoProcesoDto: CreateFlujoProcesoDto) {
-    return 'This action adds a new flujoProceso';
+
+  constructor(
+    @InjectModel(FlujoProceso.name) private flujoProcesoModel: Model<FlujoProcesoDocument>
+  ){}
+
+
+  async createFlujoProceso(createFlujoProcesoDto: CreateFlujoProcesoDto) {
+    const { name } = createFlujoProcesoDto;
+    const flujoProcesoExist = await this.flujoProcesoModel.findOne({name});
+    if (flujoProcesoExist) {
+      throw new ConflictException(`El flujo de proceso con el nombre "${name}" ya existe.`);
+    }
+    //TODO Falta verificar la existencia de las id de las referencias
+    const flujoProcesoCreate = await this.flujoProcesoModel.create(createFlujoProcesoDto);
+    return flujoProcesoCreate;
   }
 
-  findAll() {
-    return `This action returns all flujoProceso`;
+  async findAllFlujoProceso() {
+    const flujoProcesoFindAll = await this.flujoProcesoModel.find({});
+    return flujoProcesoFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} flujoProceso`;
+  async findByIdFlujoProceso(id: number) {
+    const flujoProcesoFindById = await this.flujoProcesoModel.findById(id)
+    if (!flujoProcesoFindById) {
+      throw new NotFoundException(`El flujo de proceso que desea consultar con la id "${id}" no existe.`);
+    }
+    return flujoProcesoFindById;
   }
 
-  update(id: number, updateFlujoProcesoDto: UpdateFlujoProcesoDto) {
-    return `This action updates a #${id} flujoProceso`;
+  async updateFlujoProceso(id: number, updateFlujoProcesoDto: UpdateFlujoProcesoDto) {
+    const { name } = updateFlujoProcesoDto;
+    const flujoProcesoExist = await this.flujoProcesoModel.findOne({name});
+    if (flujoProcesoExist) {
+      throw new ConflictException(`El flujo de proceso con el nombre "${name}" ya existe.`);
+    }
+    const flujoProcesoUpdate = await this.flujoProcesoModel.findByIdAndUpdate(id, updateFlujoProcesoDto);
+    return flujoProcesoUpdate;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} flujoProceso`;
+  async removeFlujoProceso(id: number) {
+    const flujoProcesoExist = await this.flujoProcesoModel.findById(id);
+    if (!flujoProcesoExist) {
+      throw new NotFoundException(`El flujo de proceso que desea eliminar con la id "${id}" no existe.`);
+    }
+    const flujoProcesoRemove = await this.flujoProcesoModel.findByIdAndDelete(id)
+    return flujoProcesoRemove;
   }
 }

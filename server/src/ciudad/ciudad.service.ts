@@ -28,6 +28,9 @@ export class CiudadService {
 
   async findByIdCiudad(id: string) {
     const ciudadFindById = await this.ciudadModel.findById(id)
+    if (!ciudadFindById) {
+      throw new NotFoundException(`La ciudad que desea consultar con la id "${id}" no existe.`);
+    }
     return ciudadFindById;
   }
 

@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('tipo-flujo-proceso')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('tipo-flujo-proceso')
 export class TipoFlujoProcesoController {
   constructor(private readonly tipoFlujoProcesoService: TipoFlujoProcesoService) {}
