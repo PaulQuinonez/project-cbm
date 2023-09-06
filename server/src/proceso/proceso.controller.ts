@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProcesoService } from './proceso.service';
 import { CreateProcesoDto } from './dto/create-proceso.dto';
 import { UpdateProcesoDto } from './dto/update-proceso.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('proceso')
 @Controller('proceso')
 export class ProcesoController {
   constructor(private readonly procesoService: ProcesoService) {}
@@ -19,16 +22,16 @@ export class ProcesoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.procesoService.findOne(+id);
+    return this.procesoService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProcesoDto: UpdateProcesoDto) {
-    return this.procesoService.update(+id, updateProcesoDto);
+    return this.procesoService.update(id, updateProcesoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.procesoService.remove(+id);
+    return this.procesoService.remove(id);
   }
 }

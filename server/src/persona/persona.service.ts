@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
+import { Persona, PersonaDocument } from './schema/persona.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class PersonaService {
-  create(createPersonaDto: CreatePersonaDto) {
-    return 'This action adds a new persona';
+  constructor(
+    @InjectModel(Persona.name) private personaModel: Model<PersonaDocument>
+  ){}
+  async create(createPersonaDto: CreatePersonaDto) {
+    const { CI } = createPersonaDto;
+    const existingPersona = await this.personaModel.findOne({ CI });
+    if (existingPersona) {
+      throw new ConflictException('La persona con esa CI ya existe.');
+    }
+    const personaCreated = await this.personaModel.create(createPersonaDto)
+    return personaCreated;
   }
 
-  findAll() {
-    return `This action returns all persona`;
+  async findAll() {
+    const personaFindAll = await this.personaModel.find({})
+    return personaFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} persona`;
+  async findOne(id: string) {
+    const personaFindID = await this.personaModel.findById(id)
+    return personaFindID;
   }
 
-  update(id: number, updatePersonaDto: UpdatePersonaDto) {
-    return `This action updates a #${id} persona`;
+  async update(id: string, updatePersonaDto: UpdatePersonaDto) {
+    const actualizarPersona = await this.personaModel.findByIdAndUpdate(id, updatePersonaDto)
+    return actualizarPersona;
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} persona`;
-  }
+    async remove(id: string) {
+      const personaRemove = await this.personaModel.findByIdAndDelete(id)
+      return personaRemove;
+    }
 }

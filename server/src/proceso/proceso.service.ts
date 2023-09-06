@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateProcesoDto } from './dto/create-proceso.dto';
 import { UpdateProcesoDto } from './dto/update-proceso.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Proceso, ProcesoDocument } from './schema/proceso.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class ProcesoService {
-  create(createProcesoDto: CreateProcesoDto) {
-    return 'This action adds a new proceso';
+  constructor(
+    @InjectModel(Proceso.name) private procesoModel: Model<ProcesoDocument>
+  ){}
+  async create(createProcesoDto: CreateProcesoDto) {
+    const { name } = createProcesoDto;
+    const existingProceso = await this.procesoModel.findOne({ name });
+    if (existingProceso) {
+      throw new ConflictException('El proceso ya existe.');
+    }
+    const procesoCreated = await this.procesoModel.create(createProcesoDto)
+    return procesoCreated;
   }
 
-  findAll() {
-    return `This action returns all proceso`;
+  async findAll() {
+    const procesoFindAll = await this.procesoModel.find({})
+    return procesoFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} proceso`;
+  async findOne(id: string) {
+    const procesoFindID = await this.procesoModel.findById(id)
+    return procesoFindID;
   }
 
-  update(id: number, updateProcesoDto: UpdateProcesoDto) {
-    return `This action updates a #${id} proceso`;
+  async update(id: string, updateProcesoDto: UpdateProcesoDto) {
+    const actualizarProceso = await this.procesoModel.findByIdAndUpdate(id, updateProcesoDto)
+    return actualizarProceso;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} proceso`;
+  async remove(id: string) {
+    const procesoRemove = await this.procesoModel.findByIdAndDelete(id)
+    return procesoRemove;
   }
 }
