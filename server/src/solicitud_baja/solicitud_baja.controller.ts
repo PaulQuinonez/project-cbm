@@ -1,8 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { SolicitudBajaService } from './solicitud_baja.service';
 import { CreateSolicitudBajaDto } from './dto/create-solicitud_baja.dto';
 import { UpdateSolicitudBajaDto } from './dto/update-solicitud_baja.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@ApiBearerAuth()
+@ApiTags('solicitud-baja')
+@UseGuards(JwtAuthGuard)
 @Controller('solicitud-baja')
 export class SolicitudBajaController {
   constructor(private readonly solicitudBajaService: SolicitudBajaService) {}

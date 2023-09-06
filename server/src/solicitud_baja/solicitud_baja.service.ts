@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSolicitudBajaDto } from './dto/create-solicitud_baja.dto';
 import { UpdateSolicitudBajaDto } from './dto/update-solicitud_baja.dto';
+import { SolicitudBaja, SolicitudBajaDocument } from './schema/solicitud_baja.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class SolicitudBajaService {
-  create(createSolicitudBajaDto: CreateSolicitudBajaDto) {
-    return 'This action adds a new solicitudBaja';
+  constructor(
+    @InjectModel(SolicitudBaja.name) private solicitudBajaModel: Model<SolicitudBajaDocument>
+  ){}
+  async create(createSolicitudBajaDto: CreateSolicitudBajaDto) {
+    const { name } = createSolicitudBajaDto;
+    const solicitudBajaExiste = await this.solicitudBajaModel.findOne({name});
+    if (solicitudBajaExiste) {
+      throw new ConflictException(`La solicitud de Baja con el nombre "${name}" ya existe.`);
+    }
+    const solicitudBajaCreate = await this.solicitudBajaModel.create(createSolicitudBajaDto);
+    return solicitudBajaCreate;
   }
 
-  findAll() {
-    return `This action returns all solicitudBaja`;
+  async findAll() {
+    const solicitudBajaFindAll = await this.solicitudBajaModel.find({});
+    return solicitudBajaFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} solicitudBaja`;
+  async findOne(id: number) {
+    const solicitudBajaFindById = await this.solicitudBajaModel.findById(id)
+    if (!solicitudBajaFindById) {
+      throw new NotFoundException(`La solicitud de Baja que desea consultar con la id "${id}" no existe.`);
+    }
+    return solicitudBajaFindById;
   }
 
-  update(id: number, updateSolicitudBajaDto: UpdateSolicitudBajaDto) {
-    return `This action updates a #${id} solicitudBaja`;
+  async update(id: number, updateSolicitudBajaDto: UpdateSolicitudBajaDto) {
+    const solicitudBajaUpdate = await this.solicitudBajaModel.findByIdAndUpdate(id, updateSolicitudBajaDto);
+    return solicitudBajaUpdate;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} solicitudBaja`;
+  async remove(id: number) {
+    const solicitudBajaExiste = await this.solicitudBajaModel.findById(id);
+    if (!solicitudBajaExiste) {
+      throw new NotFoundException(`La solicitud de Baja que desea eliminar no existe.`);
+    }
+    const solicitudBajaRemove = await this.solicitudBajaModel.findByIdAndDelete(id)
+    return solicitudBajaRemove;
   }
 }

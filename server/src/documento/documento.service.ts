@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDocumentoDto } from './dto/create-documento.dto';
 import { UpdateDocumentoDto } from './dto/update-documento.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Documento, DocumentoDocument } from './schema/documento.schema';
 
 @Injectable()
 export class DocumentoService {
-  create(createDocumentoDto: CreateDocumentoDto) {
-    return 'This action adds a new documento';
+  constructor(
+    @InjectModel(Documento.name) private DocumentoModel: Model<DocumentoDocument>
+  ){}
+  async create(createDocumentoDto: CreateDocumentoDto) {
+    const documentoCreated = await this.DocumentoModel.create(createDocumentoDto)
+    return documentoCreated;
   }
 
-  findAll() {
-    return `This action returns all documento`;
+  async findAll() {
+    const documentoFindAll = await this.DocumentoModel.find({})
+    return documentoFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} documento`;
+  async findOne(id: number) {
+    const documentoFindID = await this.DocumentoModel.findById(id)
+    return documentoFindID;
   }
 
-  update(id: number, updateDocumentoDto: UpdateDocumentoDto) {
-    return `This action updates a #${id} documento`;
+  async update(id: number, updateDocumentoDto: UpdateDocumentoDto) {
+    const actualizarDocumento = await this.DocumentoModel.findByIdAndUpdate(id, UpdateDocumentoDto)
+    return actualizarDocumento;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} documento`;
+  async remove(id: number) {
+    const documenmtoRemove = await this.DocumentoModel.findByIdAndDelete(id)
+    return documenmtoRemove;
   }
 }
