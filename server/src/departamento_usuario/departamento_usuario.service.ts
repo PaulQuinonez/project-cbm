@@ -17,6 +17,8 @@ export class DepartamentoUsuarioService {
 
   async findAll() {
     const departamentoUsuarioFindAll = await this.DepartamentoUsuarioModel.find({})
+    .populate('usuario_id', 'name email ciudadId roleId')
+    .populate('departamento_id', 'name')
     return departamentoUsuarioFindAll;
   }
 

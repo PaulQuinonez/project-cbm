@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('departamento-usuario')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('departamento-usuario')
 export class DepartamentoUsuarioController {
   constructor(private readonly departamentoUsuarioService: DepartamentoUsuarioService) {}
