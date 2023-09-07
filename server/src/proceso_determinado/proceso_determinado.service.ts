@@ -28,7 +28,7 @@ export class ProcesoDeterminadoService {
     return procesoDeterminadoFindAll;
   }
 
-  async findByIdProcesoDeterminado(id: number) {
+  async findByIdProcesoDeterminado(id: string) {
     const procesoDeterminadoFindById = await this.procesoDeterminadoModel.findById(id)
     if (!procesoDeterminadoFindById) {
       throw new NotFoundException(`El proceso determinado que desea consultar con la id "${id}" no existe.`);
@@ -36,7 +36,7 @@ export class ProcesoDeterminadoService {
     return procesoDeterminadoFindById;
   }
 
-  async updateProcesoDeterminado(id: number, updateProcesoDeterminadoDto: UpdateProcesoDeterminadoDto) {
+  async updateProcesoDeterminado(id: string, updateProcesoDeterminadoDto: UpdateProcesoDeterminadoDto) {
     const { name } = updateProcesoDeterminadoDto;
     const procesoDeterminadoExist = await this.procesoDeterminadoModel.findOne({name});
     if (procesoDeterminadoExist) {
@@ -46,7 +46,7 @@ export class ProcesoDeterminadoService {
     return procesoDeterminadoUpdate;
   }
 
-  async removeProcesoDeterminado(id: number) {
+  async removeProcesoDeterminado(id: string) {
     const procesoDeterminadoExist = await this.procesoDeterminadoModel.findById(id);
     if (!procesoDeterminadoExist) {
       throw new NotFoundException(`El proceso determinado que desea eliminar con la id "${id}" no existe.`);

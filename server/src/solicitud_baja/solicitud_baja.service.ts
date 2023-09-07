@@ -25,7 +25,7 @@ export class SolicitudBajaService {
     return solicitudBajaFindAll;
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const solicitudBajaFindById = await this.solicitudBajaModel.findById(id)
     if (!solicitudBajaFindById) {
       throw new NotFoundException(`La solicitud de Baja que desea consultar con la id "${id}" no existe.`);
@@ -33,12 +33,12 @@ export class SolicitudBajaService {
     return solicitudBajaFindById;
   }
 
-  async update(id: number, updateSolicitudBajaDto: UpdateSolicitudBajaDto) {
+  async update(id: string, updateSolicitudBajaDto: UpdateSolicitudBajaDto) {
     const solicitudBajaUpdate = await this.solicitudBajaModel.findByIdAndUpdate(id, updateSolicitudBajaDto);
     return solicitudBajaUpdate;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const solicitudBajaExiste = await this.solicitudBajaModel.findById(id);
     if (!solicitudBajaExiste) {
       throw new NotFoundException(`La solicitud de Baja que desea eliminar no existe.`);

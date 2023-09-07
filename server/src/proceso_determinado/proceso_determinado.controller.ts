@@ -26,16 +26,16 @@ export class ProcesoDeterminadoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.procesoDeterminadoService.findByIdProcesoDeterminado(+id);
+    return this.procesoDeterminadoService.findByIdProcesoDeterminado(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProcesoDeterminadoDto: UpdateProcesoDeterminadoDto) {
-    return this.procesoDeterminadoService.updateProcesoDeterminado(+id, updateProcesoDeterminadoDto);
+    return this.procesoDeterminadoService.updateProcesoDeterminado(id, updateProcesoDeterminadoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.procesoDeterminadoService.removeProcesoDeterminado(+id);
+    return this.procesoDeterminadoService.removeProcesoDeterminado(id);
   }
 }

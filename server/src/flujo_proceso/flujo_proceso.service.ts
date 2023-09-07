@@ -25,11 +25,13 @@ export class FlujoProcesoService {
   }
 
   async findAllFlujoProceso() {
-    const flujoProcesoFindAll = await this.flujoProcesoModel.find({});
+    const flujoProcesoFindAll = await this.flujoProcesoModel.find({})
+    .populate('opciones_id', 'type')
+    .populate('tipo_flujo_proceso_id' , 'name');
     return flujoProcesoFindAll;
   }
 
-  async findByIdFlujoProceso(id: number) {
+  async findByIdFlujoProceso(id: string) {
     const flujoProcesoFindById = await this.flujoProcesoModel.findById(id)
     if (!flujoProcesoFindById) {
       throw new NotFoundException(`El flujo de proceso que desea consultar con la id "${id}" no existe.`);
@@ -37,7 +39,7 @@ export class FlujoProcesoService {
     return flujoProcesoFindById;
   }
 
-  async updateFlujoProceso(id: number, updateFlujoProcesoDto: UpdateFlujoProcesoDto) {
+  async updateFlujoProceso(id: string, updateFlujoProcesoDto: UpdateFlujoProcesoDto) {
     const { name } = updateFlujoProcesoDto;
     const flujoProcesoExist = await this.flujoProcesoModel.findOne({name});
     if (flujoProcesoExist) {
@@ -47,7 +49,9 @@ export class FlujoProcesoService {
     return flujoProcesoUpdate;
   }
 
-  async removeFlujoProceso(id: number) {
+  async removeFlujoProceso(id: string) {
+    console.log('here'+id);
+    
     const flujoProcesoExist = await this.flujoProcesoModel.findById(id);
     if (!flujoProcesoExist) {
       throw new NotFoundException(`El flujo de proceso que desea eliminar con la id "${id}" no existe.`);

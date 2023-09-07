@@ -27,7 +27,7 @@ export class OpcionesService {
     return opcionesFindAll;
   }
 
-  async findByIdOpciones(id: number) {
+  async findByIdOpciones(id: string) {
     const opcionesFindById = await this.opcionesModel.findById(id)
     if (!opcionesFindById) {
       throw new NotFoundException(`La opción que desea consultar con la id "${id}" no existe.`);
@@ -35,7 +35,7 @@ export class OpcionesService {
     return opcionesFindById;
   }
 
-  async updateOpciones(id: number, updateOpcioneDto: UpdateOpcioneDto) {
+  async updateOpciones(id: string, updateOpcioneDto: UpdateOpcioneDto) {
     const { type } = updateOpcioneDto;
     const opcionesExist = await this.opcionesModel.findOne({type});
     if (opcionesExist) {
@@ -45,7 +45,7 @@ export class OpcionesService {
     return opcionesUpdate;
   }
 
-  async removeOpciones(id: number) {
+  async removeOpciones(id: string) {
     const opcionesExist = await this.opcionesModel.findById(id);
     if (!opcionesExist) {
       throw new NotFoundException(`La opción que desea eliminar con la id "${id}" no existe.`);

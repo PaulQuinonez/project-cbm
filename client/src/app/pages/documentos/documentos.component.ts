@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentoService } from 'src/app/core/services/documento.service';
 
 @Component({
   selector: 'app-documentos',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./documentos.component.css']
 })
 export class DocumentosComponent implements OnInit {
-
-  constructor() { }
+  documentos: Array<any> = [];
+  constructor(private _documentoService: DocumentoService) { }
 
   ngOnInit(): void {
+    this._documentoService.getAllDocumento().subscribe((data) => {
+      this.documentos = data;
+      console.log(data);
+      
+    })
   }
 
 }

@@ -27,16 +27,16 @@ export class FlujoProcesoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.flujoProcesoService.findByIdFlujoProceso(+id);
+    return this.flujoProcesoService.findByIdFlujoProceso(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFlujoProcesoDto: UpdateFlujoProcesoDto) {
-    return this.flujoProcesoService.updateFlujoProceso(+id, updateFlujoProcesoDto);
+    return this.flujoProcesoService.updateFlujoProceso(id, updateFlujoProcesoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.flujoProcesoService.removeFlujoProceso(+id);
+    return this.flujoProcesoService.removeFlujoProceso(id);
   }
 }

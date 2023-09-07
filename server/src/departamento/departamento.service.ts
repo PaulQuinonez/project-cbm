@@ -25,17 +25,17 @@ export class DepartamentoService {
     return departamentoFindAll;
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const departamentoFindID = await this.DepartamentoModel.findById(id)
     return departamentoFindID;
   }
 
-  async update(id: number, updateDepartamentoDto: UpdateDepartamentoDto) {
+  async update(id: string, updateDepartamentoDto: UpdateDepartamentoDto) {
     const actualizardepartamento = await this.DepartamentoModel.findByIdAndUpdate(id, updateDepartamentoDto)
     return actualizardepartamento;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const departamentoRemove = await this.DepartamentoModel.findByIdAndDelete(id)
     return departamentoRemove;
   }

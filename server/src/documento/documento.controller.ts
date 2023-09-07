@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('documento')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('documento')
 export class DocumentoController {
   constructor(private readonly documentoService: DocumentoService) {}
@@ -24,16 +24,16 @@ export class DocumentoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.documentoService.findOne(+id);
+    return this.documentoService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDocumentoDto: UpdateDocumentoDto) {
-    return this.documentoService.update(+id, updateDocumentoDto);
+    return this.documentoService.update(id, updateDocumentoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.documentoService.remove(+id);
+    return this.documentoService.remove(id);
   }
 }

@@ -26,16 +26,16 @@ export class OpcionesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.opcionesService.findByIdOpciones(+id);
+    return this.opcionesService.findByIdOpciones(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOpcioneDto: UpdateOpcioneDto) {
-    return this.opcionesService.updateOpciones(+id, updateOpcioneDto);
+    return this.opcionesService.updateOpciones(id, updateOpcioneDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.opcionesService.removeOpciones(+id);
+    return this.opcionesService.removeOpciones(id);
   }
 }

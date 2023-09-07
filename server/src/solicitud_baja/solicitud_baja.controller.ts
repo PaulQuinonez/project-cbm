@@ -24,16 +24,16 @@ export class SolicitudBajaController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.solicitudBajaService.findOne(+id);
+    return this.solicitudBajaService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSolicitudBajaDto: UpdateSolicitudBajaDto) {
-    return this.solicitudBajaService.update(+id, updateSolicitudBajaDto);
+    return this.solicitudBajaService.update(id, updateSolicitudBajaDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.solicitudBajaService.remove(+id);
+    return this.solicitudBajaService.remove(id);
   }
 }

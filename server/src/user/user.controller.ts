@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 //TODO http://localhost:3000/user/
 
-@ApiBearerAuth()
+// @ApiBearerAuth()
 @ApiTags('user')
 // @UseGuards(JwtAuthGuard)
 @Controller('user')

@@ -17,10 +17,19 @@ export class DepartamentoUsuarioService {
 
   async findAll() {
     const departamentoUsuarioFindAll = await this.DepartamentoUsuarioModel.find({})
-    .populate('usuario_id', 'name email ciudadId roleId')
-    .populate('departamento_id', 'name')
+      .populate('usuario_id', 'name email ciudadId roleId')
+      .populate({
+        path: 'usuario_id',
+        populate: [
+          { path: 'ciudadId', select: 'name' },
+          { path: 'roleId', select: 'name' }
+        ]
+      })
+      .populate('departamento_id', 'name');
+  
     return departamentoUsuarioFindAll;
   }
+  
 
   async findOne(id: string) {
     const departamentoUsuarioFindID = await this.DepartamentoUsuarioModel.findById(id)

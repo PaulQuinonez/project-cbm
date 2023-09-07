@@ -6,7 +6,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @ApiBearerAuth()
 @ApiTags('departamento')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('departamento')
 export class DepartamentoController {
   constructor(private readonly departamentoService: DepartamentoService) {}
@@ -23,16 +23,16 @@ export class DepartamentoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.departamentoService.findOne(+id);
+    return this.departamentoService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDepartamentoDto: UpdateDepartamentoDto) {
-    return this.departamentoService.update(+id, updateDepartamentoDto);
+    return this.departamentoService.update(id, updateDepartamentoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.departamentoService.remove(+id);
+    return this.departamentoService.remove(id);
   }
 }

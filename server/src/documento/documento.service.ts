@@ -17,20 +17,22 @@ export class DocumentoService {
 
   async findAll() {
     const documentoFindAll = await this.DocumentoModel.find({})
+    .populate('persona_id', 'name CI')
+    .populate('proceso_determinado_id', 'name')
     return documentoFindAll;
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const documentoFindID = await this.DocumentoModel.findById(id)
     return documentoFindID;
   }
 
-  async update(id: number, updateDocumentoDto: UpdateDocumentoDto) {
+  async update(id: string, updateDocumentoDto: UpdateDocumentoDto) {
     const actualizarDocumento = await this.DocumentoModel.findByIdAndUpdate(id, UpdateDocumentoDto)
     return actualizarDocumento;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const documenmtoRemove = await this.DocumentoModel.findByIdAndDelete(id)
     return documenmtoRemove;
   }
