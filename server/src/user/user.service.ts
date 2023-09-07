@@ -24,7 +24,7 @@ export class UserService {
   }
 
   async findAll() {
-    const userFindAll = await this.userModel.find({})
+    const userFindAll = await this.userModel.find({}).populate("ciudadId","name").populate("roleId","name")
     return userFindAll;
   }
 

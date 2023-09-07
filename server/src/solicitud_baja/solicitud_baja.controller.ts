@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('solicitud-baja')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('solicitud-baja')
 export class SolicitudBajaController {
   constructor(private readonly solicitudBajaService: SolicitudBajaService) {}
