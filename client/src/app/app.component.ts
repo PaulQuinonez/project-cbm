@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ScriptUploadService } from './core/services/script-upload.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  constructor(
+    private _uploadScriptService : ScriptUploadService
+  ){
+    this._uploadScriptService.Upload(["script"])
+  }
+
   title = 'client';
 }
