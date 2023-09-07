@@ -24,7 +24,7 @@ export class ProcesoDeterminadoService {
   }
 
   async findAllProcesoDeterminado() {
-    const procesoDeterminadoFindAll = await this.procesoDeterminadoModel.find({});
+    const procesoDeterminadoFindAll = await this.procesoDeterminadoModel.find({}).populate('proceso_id', 'name');
     return procesoDeterminadoFindAll;
   }
 
