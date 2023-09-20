@@ -38,11 +38,17 @@ export class RolesService {
 
   async update(id: string, updateRoleDto: UpdateRoleDto) {
     const actualizarRol = await this.rolModel.findByIdAndUpdate(id, updateRoleDto)
+    if (!actualizarRol) {
+      throw new NotFoundException(`El rol que desea consultar con la id "${id}" no existe.`);
+    }
     return actualizarRol;
   }
 
   async remove(id: string) {
     const rolRemove = await this.rolModel.findByIdAndDelete(id)
+    if (!rolRemove) {
+      throw new NotFoundException(`El rol que desea consultar con la id "${id}" no existe.`);
+    }
     return rolRemove;
   }
 }
