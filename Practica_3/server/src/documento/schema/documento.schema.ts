@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { Departamento } from 'src/departamento/schema/departamento.schema';
-import { Persona } from 'src/persona/schema/persona.schema';
-import { ProcesoDeterminado } from 'src/proceso_determinado/schema/proceso_determinado.schema';
+import { Persona } from '../../persona/schema/persona.schema';
+import { ProcesoDeterminado } from '../../proceso_determinado/schema/proceso_determinado.schema';
 
 
 export type DocumentoDocument = Documento & Document;

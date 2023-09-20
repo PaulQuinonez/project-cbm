@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDocumentoDto } from './dto/create-documento.dto';
 import { UpdateDocumentoDto } from './dto/update-documento.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -24,11 +24,17 @@ export class DocumentoService {
 
   async findOne(id: string) {
     const documentoFindID = await this.DocumentoModel.findById(id)
+    if (!documentoFindID) {
+      throw new NotFoundException(`El documento que desea consultar con la id "${id}" no existe.`);
+    }
     return documentoFindID;
   }
 
   async update(id: string, updateDocumentoDto: UpdateDocumentoDto) {
     const actualizarDocumento = await this.DocumentoModel.findByIdAndUpdate(id, UpdateDocumentoDto)
+    if (!actualizarDocumento) {
+      throw new NotFoundException(`El documento que desea actualizar con la id "${id}" no existe.`);
+    }
     return actualizarDocumento;
   }
 
