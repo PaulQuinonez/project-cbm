@@ -10,7 +10,7 @@ export class RolesService {
   constructor(
     @InjectModel(Roles.name) private rolModel: Model<RolesDocument>
   ){}
-  async create(createRoleDto: CreateRoleDto) {
+  async create(createRoleDto: any) {
     const { name } = createRoleDto;
     const existingRole = await this.rolModel.findOne({ name });
     if (existingRole) {
