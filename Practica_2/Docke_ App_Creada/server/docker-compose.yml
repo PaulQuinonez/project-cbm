@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  nest:
+    build:
+      context: ./
+      dockerfile: dockerfiles/nestjs.dockerfile
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/app  # Monta el directorio actual en el contenedor
