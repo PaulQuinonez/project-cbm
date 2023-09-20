@@ -57,7 +57,7 @@ FROM node:16 as test
 WORKDIR /app
 COPY --from=install /app/node_modules ./node_modules
 COPY . .
-RUN npm run test
+RUN npm run test -- documento.service.spec.ts
 
 # Dependencias de Producción
 FROM node:16 as prod-deps

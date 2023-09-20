@@ -1,30 +1,42 @@
-# Practica 1
+# Practica 3
 # Diagrama Entidad Relacion:
-![Evidencia 1](<./Evidencias/1.jpg>)
-# Definimos como base de datos Mongo, por el momento, como podemos ver en el back ya se estructuro de una vez todas las entidades que forman parte del diagrama entidad relacion anterior.
-![Evidencia 2](<./Evidencias/2.png>)
-# En el front en este caso angular hicimos uso de las entidades que tienen dos relaciones con otras entidades, en este caso como se menciono en clase no era necesario aplicar todas las rutas de la apu rest, con el get bastaba, entonces se definieron las respectivas interfaces que nos presentan unas tablas con esta informacion.
-# Usuarios:
-![Evidencia 3](<./Evidencias/3.png>)
-# Documento:
-![Evidencia 4](<./Evidencias/4.png>)
-# Departamentos:
-![Evidencia 5](<./Evidencias/5.png>)
-# Flujo de Procesos:
-![Evidencia 6](<./Evidencias/6.png>)
-# Proceso Determinado:
-![Evidencia 7](<./Evidencias/7.png>)
-# Solicitud Baja:
-![Evidencia 8](<./Evidencias/8.png>)
-# El proceso de dockerizacion es el siguiente, Luego de haber creado ambos dockerfiles tanto en el server como en el client en nuestro  docker-compose tendremos que configurar los respectivos servicios que necesitamos entre los cuales se encuentran la creacion de las imagenes del server y el client que para eso se usan los dockersfiles, asi mismo como vamos a usar nuestra base de datos en mongo tambien tendremos que configurarla. Luego con el comando:
-```bash
-docker-compose up --build   
-```
-![Evidencia 9](./Evidencias/9.png)
-# Eso nos va a generar las imagenes respectivas y va a usarlas en el respectivo container que acabamos de crear:
+![Evidencia 1](<./evidencias/1.jpg>)
+# 1) Aplicar servicio REST (aplicar por lo menos 2 métodos del CRUD) basado en la entidad transaccional asignada en su trabajo autónomo.
 
-![Evidencia 10](./Evidencias/10.png)
-![Evidencia 11](./Evidencias/11.png)
-# Entonces comprobamos que solo haciendo eso podemos usar tanto el forntend como el backend:
-![Evidencia 12](./Evidencias/12.png)
-![Evidencia 13](./Evidencias/13.png)
+![Evidencia 2](<./evidencias/2.png>)
+# Como vemos aparecen los demas metodos crud en la tabla que me pertenece en mi caso la de documentos.
+# 2) Aplicar por lo menos una prueba unitaria para los métodos del servicio REST
+![Evidencia 3](<./evidencias/3.png>)
+![Evidencia 6](<./evidencias/6.png>)
+```bash
+npm run test -- documento.service.spec.ts
+```
+# Como vemos se le hicieron los respectivos test a 3 de las funciones de este componente: findOne, update y remove.
+# 3/4) Definir un TAG que permita dockerizar tanto el servicio REST como sus pruebas en un solo stage (se aplica compilación normal de la imágen). Crear otro TAG que permita llevar multistage con por lo menos 3 etapas sobre el mismo servicio REST.
+![Evidencia 4](<./evidencias/4.png>)
+![Evidencia 7](<./evidencias/7.png>)
+```bash
+docker build --target test -t nestjstest .
+```
+# Como se acordo en clases se omitio el punto 3 y se hizo directamente el punto 4 donde se observan 4 stages en un dockerfile, con la modificacion que en el run del test solo se coloca la tabla que se representa.
+# 5) Subir ambos TAGs a Docker Hub como versiones de la misma imagen.
+![Evidencia 8](<./evidencias/8.png>)
+```bash
+docker image tag nestjstest jofre159rz/nestjs-repository:1.0.0 
+docker push jofre159rz/nestjs-repository:1.0.0
+```
+![Evidencia 9](<./evidencias/9.png>)
+```bash
+docker build --tag jofre159rz/nestjs-repository:nestjsserver .
+docker push jofre159rz/nestjs-repository:nestjsserver
+```
+![Evidencia 10](<./evidencias/10.png>)
+![Evidencia 11](<./evidencias/11.png>)
+# 6)  Probar localmente la descarga y funcionamiento de dicha imagen publicada con anterioridad.
+```bash
+ docker container run jofre159rz/nestjs-repository:nestjsserver
+```
+![Evidencia 12](<./evidencias/12.png>)
+# 7) Aplicar patrón AAA en el desarrollo de sus pruebas
+![Evidencia 5](<./evidencias/5.png>)
+# Asi mismo se definieron y separaron las partes de este patron.

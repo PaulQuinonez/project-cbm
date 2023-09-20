@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { FlujoProceso } from '../../flujo_proceso/schema/flujo_proceso.schema';
-//import { FlujoProceso } from '../../flujo_proceso/schema/flujo_proceso.schema';
 import { Proceso } from '../../proceso/schema/proceso.schema';
 
 export type ProcesoDeterminadoDocument = ProcesoDeterminado & Document;
