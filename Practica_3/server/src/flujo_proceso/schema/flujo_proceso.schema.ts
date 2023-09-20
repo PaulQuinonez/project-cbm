@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { Opciones } from 'src/opciones/schema/opciones.schema';
-import { TipoFlujoProceso } from 'src/tipo_flujo_proceso/schema/tipo_flujo_proceso.schema';
+import { Opciones } from '../../opciones/schema/opciones.schema';
+import { TipoFlujoProceso } from '../../tipo_flujo_proceso/schema/tipo_flujo_proceso.schema';
 
 export type FlujoProcesoDocument = FlujoProceso & Document;
 

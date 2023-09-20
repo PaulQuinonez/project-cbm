@@ -38,11 +38,18 @@ export class ProcesoDeterminadoService {
 
   async updateProcesoDeterminado(id: string, updateProcesoDeterminadoDto: UpdateProcesoDeterminadoDto) {
     const { name } = updateProcesoDeterminadoDto;
-    const procesoDeterminadoExist = await this.procesoDeterminadoModel.findOne({name});
+
+    const procesoDeterminadoExist = await this.procesoDeterminadoModel.findOne({ name });
     if (procesoDeterminadoExist) {
       throw new ConflictException(`El proceso determinado con el nombre "${name}" ya existe.`);
     }
+
     const procesoDeterminadoUpdate = await this.procesoDeterminadoModel.findByIdAndUpdate(id, updateProcesoDeterminadoDto);
+    if (!procesoDeterminadoUpdate) {
+      throw new NotFoundException(`El proceso determinado con la ID "${id}" no existe.`);
+    }
+
+
     return procesoDeterminadoUpdate;
   }
 

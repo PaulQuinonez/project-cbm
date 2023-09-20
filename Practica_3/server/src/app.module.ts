@@ -19,8 +19,8 @@ import { OpcionesModule } from './opciones/opciones.module';
 import config from './config';
 @Module({
   imports: [
-    // MongooseModule.forRoot('mongodb+srv://jjrz1350517171:1350517171@cluster0.ezxkxg9.mongodb.net/'),
-    MongooseModule.forRoot('mongodb://mongo:27017/cbm'),
+    MongooseModule.forRoot('mongodb+srv://jjrz1350517171:1350517171@cluster0.ezxkxg9.mongodb.net/'),
+    // MongooseModule.forRoot('mongodb://mongo:27017/cbm'),
     AuthModule,
     UserModule,
     CiudadModule,
