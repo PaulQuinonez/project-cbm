@@ -11,9 +11,12 @@ describe('RolesService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RolesService,{
+      providers: [
+        RolesService,
+        {
         provide: getModelToken(Roles.name),
         useValue: {
+          find: jest.fn(),
           findById: jest.fn(),
         },
       }],
@@ -42,7 +45,7 @@ describe('RolesService', () => {
       jest.spyOn(model, 'findById').mockResolvedValueOnce(null);
 
       //UnAssert
-      await expect(service.findOne(mockId)).rejects.toThrowError('El rol que desea consultar con la id "invalid-id" no existe.');
+      await expect(service.findOne(mockId)).rejects.toThrowError(NotFoundException);
     });
   });
   describe('findAll', () => {
