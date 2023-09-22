@@ -17,6 +17,8 @@ services:
       - mongo
     environment:
       - DB_MONGO=mongodb://mongo:27017/cbm
+    volumes:
+      - ./server:/usr/src/app
 
   # Servicio para MongoDB
   mongo:

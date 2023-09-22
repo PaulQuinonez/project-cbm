@@ -16,7 +16,7 @@ import { FlujoProcesoModule } from './flujo_proceso/flujo_proceso.module';
 import { ProcesoModule } from './proceso/proceso.module';
 import { TipoFlujoProcesoModule } from './tipo_flujo_proceso/tipo_flujo_proceso.module';
 import { OpcionesModule } from './opciones/opciones.module';
-import config from './config';
+
 @Module({
   imports: [
     // MongooseModule.forRoot('mongodb+srv://jjrz1350517171:1350517171@cluster0.ezxkxg9.mongodb.net/'),
