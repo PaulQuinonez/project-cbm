@@ -33,3 +33,4 @@ Guardado
 ![Evidencia 12](<./Evidencias/12.jpg>)
 
 Aplicar por lo menos 1 adapter o una factory function. Puede revisar el ejemplo en la carpeta: adapterFactoryFunction.
+![Evidencia 13](<./Evidencias/13.jpg>)
