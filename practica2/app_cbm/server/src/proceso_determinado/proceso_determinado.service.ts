@@ -4,12 +4,15 @@ import { Model } from 'mongoose';
 import { CreateProcesoDeterminadoDto } from './dto/create-proceso_determinado.dto';
 import { UpdateProcesoDeterminadoDto } from './dto/update-proceso_determinado.dto';
 import { ProcesoDeterminado, ProcesoDeterminadoDocument } from './schema/proceso_determinado.schema';
+import { ExistValidatorAdapter } from '../adapters/exist-validator.adapter';
 
 @Injectable()
 export class ProcesoDeterminadoService {
 
   constructor(
-    @InjectModel(ProcesoDeterminado.name) private procesoDeterminadoModel: Model<ProcesoDeterminadoDocument>
+    @InjectModel(ProcesoDeterminado.name) 
+    private procesoDeterminadoModel: Model<ProcesoDeterminadoDocument>,
+    private readonly existValidator: ExistValidatorAdapter,
   ){}
 
   async createProcesoDeterminado(createProcesoDeterminadoDto: CreateProcesoDeterminadoDto) {
@@ -29,11 +32,14 @@ export class ProcesoDeterminadoService {
   }
 
   async findByIdProcesoDeterminado(id: string) {
-    const procesoDeterminadoFindById = await this.procesoDeterminadoModel.findById(id)
-    if (!procesoDeterminadoFindById) {
-      throw new NotFoundException(`El proceso determinado que desea consultar con la id "${id}" no existe.`);
-    }
-    return procesoDeterminadoFindById;
+
+    // Utiliza el adaptador ExistValidatorAdapter para validar la existencia de la ID
+    const result = await this.existValidator.validateId(id);
+    //const procesoDeterminadoFindById = await this.procesoDeterminadoModel.findById(id)
+    // if (!procesoDeterminadoFindById) {
+    //   throw new NotFoundException(`El proceso determinado que desea consultar con la id "${id}" no existe.`);
+    // }
+    return result;
   }
 
   async updateProcesoDeterminado(id: string, updateProcesoDeterminadoDto: UpdateProcesoDeterminadoDto) {
