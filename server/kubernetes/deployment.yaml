@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice04
+  labels:
+    app: practice04
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: practice04
+  template:
+    metadata:
+      labels:
+        app: practice04
+    spec:
+      containers:
+      - name: practice04
+        image: mochasplit/isp_practice04:0.0.2
+        ports:
+        - containerPort: 3000
+        env:
+          - name: TITLE
+            value: "Hola Mundo 2"
