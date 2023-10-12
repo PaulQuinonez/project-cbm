@@ -4,6 +4,7 @@ import { UpdateDepartamentoUsuarioDto } from './dto/update-departamento_usuario.
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DepartamentoUsuario, DepartamentoUsuarioDocument } from './schema/departamento_usuario.schema';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class DepartamentoUsuarioService {
@@ -33,6 +34,9 @@ export class DepartamentoUsuarioService {
 
   async findOne(id: string) {
     const departamentoUsuarioFindID = await this.DepartamentoUsuarioModel.findById(id)
+    if (!departamentoUsuarioFindID) {
+      throw new NotFoundException(`El departamento_usuario que desea consultar con la id "${id}" no existe.`);
+    }
     return departamentoUsuarioFindID;
   }
 

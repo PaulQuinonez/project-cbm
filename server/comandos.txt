@@ -1,8 +1,8 @@
 docker build -t practica4 .
-docker run -p 3002:3000 practica4
+docker run -p 4001:4000 practica4
 
-docker build -t jofre159rz/nestjs-repository:0.0.2 .
-docker push jofre159rz/nestjs-repository:0.0.2
+docker build -t hachicko166/repository:back .
+docker push hachicko166/repository:back
 minikube start
 kubectl apply -f .
 kubectl get nodes 
@@ -11,7 +11,7 @@ kubectl get pods -w
 kubectl port-forward backend-deployment-99479d64b-4zntm 3001:3000
 
 kubectl get services
-minikube service backend
+    minikube service backend
 
 kubectl port-forward service/practice04 3001:3000
 
