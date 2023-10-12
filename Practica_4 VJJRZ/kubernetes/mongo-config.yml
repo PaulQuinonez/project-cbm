@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-config
+data:
+  MONGO_HOST: cluster0.ezxkxg9.mongodb.net
+  MONGO_DB : ""
