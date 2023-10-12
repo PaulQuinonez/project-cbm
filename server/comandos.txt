@@ -1,15 +1,18 @@
 docker build -t practica4 .
 docker run -p 3002:3000 practica4
 
-docker build -t mochasplit/isp_practice04:0.0.2 .
-docker push mochasplit/isp_practice04:0.0.2
-
+docker build -t jofre159rz/nestjs-repository:0.0.2 .
+docker push jofre159rz/nestjs-repository:0.0.2
+minikube start
+kubectl apply -f .
 kubectl get nodes 
 kubectl get pods
 kubectl get pods -w
-kubectl port-forward practice04-6f89ccdb55-wl2pf 3001:3000
+kubectl port-forward backend-deployment-99479d64b-4zntm 3001:3000
 
 kubectl get services
-minikube service practice04
+minikube service backend
 
 kubectl port-forward service/practice04 3001:3000
+
+kubectl logs pods/
